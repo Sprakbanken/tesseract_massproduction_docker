@@ -28,7 +28,8 @@ RUN apt-get update && apt-get install -y \
 	pkg-config \
 	wget \
 	xzgv \
-	zlib1g-dev
+	zlib1g-dev \
+	python3-pip
 
 RUN mkdir /home/test && \
 	cd /home/test && \
@@ -37,11 +38,11 @@ RUN mkdir /home/test && \
 	./autogen.sh && \
 	mkdir -p bin/release && \
 	cd bin/release && \
-	../../configure --disable-openmp --disable-shared 'CXXFLAGS=-g -O2 -fno-math-errno -Wall -Wextra -Wpedantic' && \
+	../../configure --disable-openmp --disable-shared 'CXXFLAGS=-g -O2 -fno-math-errno -Wall -Wextra -Wpedantic -fPIC' && \
 	make && \
 	make install && \
 	make training && \
 	make training-install && \
 	ldconfig
 
-
+RUN pip install tesserocr
