@@ -29,7 +29,8 @@ RUN apt-get update && apt-get install -y \
 	wget \
 	xzgv \
 	zlib1g-dev \
-	python3-pip
+	python3-pip \
+	libcurl4-gnutls-dev
 
 RUN mkdir /home/test && \
 	cd /home/test && \
@@ -45,4 +46,7 @@ RUN mkdir /home/test && \
 	make training-install && \
 	ldconfig
 
-RUN pip install tesserocr
+RUN pip install tesserocr Pillow requests
+
+WORKDIR /code
+COPY process.py .
