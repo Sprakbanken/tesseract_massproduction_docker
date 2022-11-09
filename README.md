@@ -17,3 +17,7 @@ docker run --rm tesseract_massproduction tesseract
 ```bash
 find * -type f -name "*.tif" | parallel -j 5 "echo {} && docker run -v /path/to/models:/usr/local/share/tessdata -v /path/to/data:/data --rm tesseract_massproduction tesseract /data/{} /data/{} -c tessedit_create_hocr=1 -c hocr_font_info=0 -l eng"
 ```
+## Example for IIIF (returning ALTO XML)
+```bash
+docker run -it -v /data/ocr/models/:/usr/local/share/tessdata -v /data/ocr/data:/data tesseract_massproduction python3 process.py URN nor-frak+nno-nor alto"
+```
