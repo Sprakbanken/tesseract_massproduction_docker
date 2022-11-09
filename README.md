@@ -19,5 +19,5 @@ find * -type f -name "*.tif" | parallel -j 5 "echo {} && docker run -v /path/to/
 ```
 ## Example for IIIF (returning ALTO XML)
 ```bash
-docker run -it -v /data/ocr/models/:/usr/local/share/tessdata -v /data/ocr/data:/data tesseract_massproduction python3 process.py URN nor-frak+nno-nor alto"
+docker run -it -v /data/ocr/models/:/usr/local/share/tessdata -v /data/ocr/data:/data tesseract_massproduction python3 process.py URN MODELNAME alto"
 ```
