@@ -13,11 +13,24 @@ docker build -t tesseract_massproduction .
 docker run --rm tesseract_massproduction tesseract
 ```
 
-## Example pipeline using GNU Parallel
+# Example pipeline using GNU Parallel
 ```bash
 find * -type f -name "*.tif" | parallel -j 5 "echo {} && docker run -v /path/to/models:/usr/local/share/tessdata -v /path/to/data:/data --rm tesseract_massproduction tesseract /data/{} /data/{} -c tessedit_create_hocr=1 -c hocr_font_info=0 -l eng"
 ```
-## Example for IIIF (returning ALTO XML)
+# Example pipeline for IIIF (returning ALTO XML)
+
+## Run tesseract on a specific URN
+
 ```bash
 docker run -it -v /data/ocr/models/:/usr/local/share/tessdata -v /data/ocr/data:/data tesseract_massproduction python3 process.py URN MODELNAME alto"
 ```
+
+## Create folders for each URN (expects one folder with all pages in a flat structure)
+python create_folders.py INPUT_FOLDER OUTPUT_FOLDER
+
+## OPTIONAL: Transform each object (pixel to mm, de-hyphenation etc.)
+cd OUTPUT_FOLDER
+find * -type d | parallel -j 10 -u python ../create_nb_alto.py {}
+
+## OPTIONAL: Make tarballs of each object
+find * -type d -name "*_transformed" | parallel -j10 -u "cd {} && tar cf ../{=s/_transformed// =}_ocr_xml.tar *"
