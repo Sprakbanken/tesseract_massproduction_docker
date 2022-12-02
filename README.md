@@ -30,13 +30,13 @@ docker run -it -v /data/ocr/models/:/usr/local/share/tessdata -v /data/ocr/data:
 python create_folders.py INPUT_FOLDER OUTPUT_FOLDER
 ```
 
-## OPTIONAL: Transform each object (pixel to mm, de-hyphenation etc.)
+## Transform each object (pixel to mm, de-hyphenation etc.)
 ```bash
 cd OUTPUT_FOLDER
 find * -type d | parallel -j 10 -u python ../create_nb_alto.py {}
 ```
 
-## OPTIONAL: Make tarballs of each object
+## Make tarballs of each object
 ```bash
 find * -type d -name "*_transformed" | parallel -j10 -u "cd {} && tar cf ../{=s/_transformed// =}_ocr_xml.tar *"
 ```
