@@ -95,9 +95,6 @@ def convert_xml(input_path, output_path):
                 else:
                     value = str(pix2mm(value))
                 attribs[attrib_name] = value
-        
-        if elem.tag.split('}')[1] in ["Polygon", "Shape"]:
-            tree.remove(elem)
     
     # "de-hyphenation"
     lines = tree.findall(".//{*}TextLine")
