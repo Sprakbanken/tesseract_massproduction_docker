@@ -31,7 +31,7 @@ def insert_styles(input_path, output_path):
     tree.write(output_path, xml_declaration=True, encoding='UTF-8')
 
 def pix2mm(pix):
-	return int((pix*254)//400)
+    return int((pix*254)//400)
 
 def get_iiif_images(urn):
     manifest_url = "https://api.nb.no/catalog/v1/iiif/%s/manifest" % (urn)
@@ -120,12 +120,17 @@ def convert_xml(input_path, output_path):
 
         if words[-1].endswith("-") and words[-1] != "-" and idx+1 != len(lines):
             # check position (hyphen = 5 mm), if previous element is shorter, do not hyphenate
-            if int(strings[-1].attrib["WIDTH"]) > 5:
+            try:
+                previous_width = int(strings[-1].attrib["WIDTH"])
+            except:
+                continue
+
+            if previous_width > 5:
                 hyphen_width = 5
             else:
-		continue
-	    
-	    # remove hyphen from content
+                continue
+        
+        # remove hyphen from content
             firstpart = words[-1][:-1]
             
             strings[-1].attrib["SUBS_TYPE"] = "HypPart1"
