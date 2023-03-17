@@ -33,7 +33,7 @@ python create_folders.py INPUT_FOLDER OUTPUT_FOLDER
 ## Transform each object (pixel to mm, de-hyphenation etc.)
 ```bash
 cd OUTPUT_FOLDER
-find * -type d | parallel -j 10 -u python ../create_nb_alto.py {}
+find * -type d | parallel -j 10 -u python ../transform_alto.py {}
 ```
 
 ## Make tarballs of each object
