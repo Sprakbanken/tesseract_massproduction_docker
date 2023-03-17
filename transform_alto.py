@@ -7,7 +7,7 @@ import sys
 input_folder = sys.argv[1]
 
 try:
-    factor = sys.argv[2]
+    factor = int(sys.argv[2])
 except:
     factor = 1
 
