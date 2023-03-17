@@ -6,6 +6,11 @@ import sys
 
 input_folder = sys.argv[1]
 
+try:
+    factor = sys.argv[2]
+except:
+    factor = 1
+
 def insert_styles(input_path, output_path):
     tree = etree.parse(input_path)
     root = tree.getroot()
@@ -91,9 +96,9 @@ def convert_xml(input_path, output_path):
                     if value <= 0:
                         value = '0'
                     else:
-                        value = str(pix2mm(value))
+                        value = str(abs(pix2mm(value)) * factor)
                 else:
-                    value = str(pix2mm(value))
+                    value = str(abs(pix2mm(value)) * factor)
                 attribs[attrib_name] = value
     
     # "de-hyphenation"
@@ -128,10 +133,17 @@ def convert_xml(input_path, output_path):
             hyp.attrib["CONTENT"] = '-'
             
             # modify position (hyphen = 5 mm)
-            strings[-1].attrib["WIDTH"] = str(int(strings[-1].attrib["WIDTH"]) - 5)
+            if int(strings[-1].attrib["WIDTH"]) > 5:
+                hyphen_width = 5
+            elif int(strings[-1].attrib["WIDTH"]) <= 5 and int(strings[-1].attrib["WIDTH"]) >= 2:
+                hyphen_width = int(strings[-1].attrib["WIDTH"]) - 1
+            else:
+                hyphen_width = 0
+
+            strings[-1].attrib["WIDTH"] = str(int(strings[-1].attrib["WIDTH"]) - hyphen_width)
             hyp.attrib["HPOS"] = str(int(strings[-1].attrib["HPOS"]) + int(strings[-1].attrib["WIDTH"]))
             hyp.attrib["VPOS"] = strings[-1].attrib["VPOS"]
-            hyp.attrib["WIDTH"] = "5"
+            hyp.attrib["WIDTH"] = str(hyphen_width)
             
             strings[-1].addnext(hyp)
     
