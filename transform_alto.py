@@ -119,7 +119,13 @@ def convert_xml(input_path, output_path):
             strings_previous_line = []
 
         if words[-1].endswith("-") and words[-1] != "-" and idx+1 != len(lines):
-            # remove hyphen from content
+            # check position (hyphen = 5 mm), if previous element is shorter, do not hyphenate
+            if int(strings[-1].attrib["WIDTH"]) > 5:
+                hyphen_width = 5
+            else:
+		continue
+	    
+	    # remove hyphen from content
             firstpart = words[-1][:-1]
             
             strings[-1].attrib["SUBS_TYPE"] = "HypPart1"
@@ -131,14 +137,6 @@ def convert_xml(input_path, output_path):
             # insert HYP element
             hyp = etree.Element("{http://www.loc.gov/standards/alto/ns-v3#}HYP")
             hyp.attrib["CONTENT"] = '-'
-            
-            # modify position (hyphen = 5 mm)
-            if int(strings[-1].attrib["WIDTH"]) > 5:
-                hyphen_width = 5
-            elif int(strings[-1].attrib["WIDTH"]) <= 5 and int(strings[-1].attrib["WIDTH"]) >= 2:
-                hyphen_width = int(strings[-1].attrib["WIDTH"]) - 1
-            else:
-                hyphen_width = 0
 
             strings[-1].attrib["WIDTH"] = str(int(strings[-1].attrib["WIDTH"]) - hyphen_width)
             hyp.attrib["HPOS"] = str(int(strings[-1].attrib["HPOS"]) + int(strings[-1].attrib["WIDTH"]))
