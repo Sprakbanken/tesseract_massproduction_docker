@@ -46,7 +46,7 @@ RUN mkdir /home/test && \
 	make training-install && \
 	ldconfig
 
-RUN pip install tesserocr Pillow requests
+RUN pip install requests lxml
 
 WORKDIR /code
-COPY process.py .
+COPY *.py ./
