@@ -25,7 +25,13 @@ find * -type f -name "*.tif" | parallel -j 5 "echo {} && docker run -v /path/to/
 docker run -it -v /data/ocr/models/:/usr/local/share/tessdata -v /data/ocr/data:/data tesseract_massproduction python3 process.py URN MODELNAME alto"
 ```
 
-## Create folders for each URN (expects one folder with all pages in a flat structure)
+## Do a quick evaluation using word frequency lists
+
+```bash
+docker run -it -v /data/ocr/data:/data tesseract_massproduction find /data -type f | python3 validate.py | head"
+```
+
+## Create folders for each URN for simpler management (expects one folder with all pages in a flat structure)
 ```bash
 python create_folders.py INPUT_FOLDER OUTPUT_FOLDER
 ```
