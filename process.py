@@ -23,7 +23,9 @@ if manifest_json["license"] in ["https://www.nb.no/lisens/publicdomain", "https:
     for idx,canvas in enumerate(manifest_json["sequences"][0]["canvases"]):
         image_id = canvas["images"][0]["@id"].split('/')[-1]
         image_url = canvas["images"][0]["resource"]["@id"]
-        out_path = os.path.join('/data/', image_id)
+        folder_path = os.path.join('/data', urn)
+        os.mkdir(folder_path)
+        out_path = os.path.join(folder_path, image_id)
         image_url = image_url.replace('/full/full/', '/full/pct:50/')
         print(image_url)
         if output == "alto":
