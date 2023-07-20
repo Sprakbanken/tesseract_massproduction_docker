@@ -25,6 +25,12 @@ find * -type f -name "*.tif" | parallel -j 5 "echo {} && docker run -v /path/to/
 docker run -it -v /data/ocr/models/:/usr/local/share/tessdata -v /data/ocr/data:/data tesseract_massproduction python3 process.py URN MODELNAME alto"
 ```
 
+## Do a quick evaluation using word frequency lists
+
+```bash
+docker run -it -v /data/ocr/data:/data tesseract_massproduction find /data -type f | python3 validate.py | head"
+```
+
 ## Transform each object (pixel to mm, de-hyphenation etc.)
 ```bash
 cd OUTPUT_FOLDER
