@@ -25,11 +25,6 @@ find * -type f -name "*.tif" | parallel -j 5 "echo {} && docker run -v /path/to/
 docker run -it -v /data/ocr/models/:/usr/local/share/tessdata -v /data/ocr/data:/data tesseract_massproduction python3 process.py URN MODELNAME alto"
 ```
 
-## Create folders for each URN (expects one folder with all pages in a flat structure)
-```bash
-python create_folders.py INPUT_FOLDER OUTPUT_FOLDER
-```
-
 ## Transform each object (pixel to mm, de-hyphenation etc.)
 ```bash
 cd OUTPUT_FOLDER
