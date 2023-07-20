@@ -45,7 +45,7 @@ def get_iiif_images(urn):
         rows.append([image_id, image_url])
     return rows
 
-def create_filesec(urn):
+def create_filesec(urn, output_folder):
     images = get_iiif_images(urn)
     
     basexml = """<?xml version="1.0"?>
@@ -66,7 +66,7 @@ def create_filesec(urn):
         file = etree.Element("file", attrib={"ID": image_index})
         flocat = etree.Element("Flocat", attrib={"LOCTYPE": "URL", "{http://www.w3.org/1999/xlink}href": image[1]})
         
-        filepath = os.path.join(urn + "_transformed", image[0] + ".xml")
+        filepath = os.path.join(output_folder, image[0] + ".xml")
         
         if not os.path.exists(filepath):
             print("WARNING: file does not exist (but will still be listed)", filepath)
@@ -75,7 +75,7 @@ def create_filesec(urn):
         file.append(flocat)
         filegrp.append(file)
     
-    with open(os.path.join(urn + "_transformed", urn + "-mets.xml"), 'w') as f:
+    with open(os.path.join(output_folder, urn + "-mets.xml"), 'w') as f:
         f.write(etree.tostring(tree, encoding="UTF-8").decode("UTF-8"))
 
 def convert_xml(input_path, output_path):
@@ -171,4 +171,5 @@ if not input_folder.endswith("_transformed"):
             print("XML-feil, tom fil, hopper over", input_path)
         continue
 
-    create_filesec(urn=input_folder)
+    urn = os.path.basename(input_folder)
+    create_filesec(urn=urn, output_folder=output_folder)
