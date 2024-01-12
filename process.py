@@ -19,12 +19,13 @@ manifest_url = "https://api.nb.no/catalog/v1/iiif/%s/manifest" % (urn)
 manifest = requests.get(manifest_url)
 manifest_json = manifest.json()
 
+folder_path = os.path.join('/data', urn)
+os.mkdir(folder_path)
+
 if manifest_json["license"] in ["https://www.nb.no/lisens/publicdomain", "https://www.nb.no/lisens/stromming"]:
     for idx,canvas in enumerate(manifest_json["sequences"][0]["canvases"]):
         image_id = canvas["images"][0]["@id"].split('/')[-1]
         image_url = canvas["images"][0]["resource"]["@id"]
-        folder_path = os.path.join('/data', urn)
-        os.mkdir(folder_path)
         out_path = os.path.join(folder_path, image_id)
         image_url = image_url.replace('/full/full/', '/full/pct:50/')
         print(image_url)
