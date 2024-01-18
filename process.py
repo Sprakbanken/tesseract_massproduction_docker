@@ -22,7 +22,7 @@ manifest_json = manifest.json()
 folder_path = os.path.join('/data', urn)
 os.mkdir(folder_path)
 
-if manifest_json["license"] in [""https://www.nb.no/lisens/#public-domain", "https://www.nb.no/lisens/stromming"]:
+if manifest_json["license"] in ["https://www.nb.no/lisens/#public-domain", "https://www.nb.no/lisens/stromming"]:
     for idx,canvas in enumerate(manifest_json["sequences"][0]["canvases"]):
         image_id = canvas["images"][0]["@id"].split('/')[-1]
         image_url = canvas["images"][0]["resource"]["@id"]
