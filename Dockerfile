@@ -46,7 +46,8 @@ RUN mkdir /home/test && \
 	make training-install && \
 	ldconfig
 
-RUN pip install requests lxml
+RUN pip install requests lxml==5.1.0
 
 WORKDIR /code
 COPY *.py ./
+COPY models/* /usr/local/share/tessdata
