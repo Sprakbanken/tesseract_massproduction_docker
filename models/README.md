@@ -8,3 +8,5 @@ These models have been created by the National Library of Norway and have been u
 	model for Norwegian _fraktur_
 - __NorPrint1800_v1.traineddata__
 	universal model for Norweigan _antiqua_/_fraktur_
+- __norprint_storting.traineddata__
+	OCR model for parliament proceedings using norprint
