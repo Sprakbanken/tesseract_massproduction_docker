@@ -13,7 +13,7 @@ except:
 try:
     output = sys.argv[3]
 except:
-    output = ''
+    output = 'text'
 
 manifest_url = "https://api.nb.no/catalog/v1/iiif/%s/manifest" % (urn)
 manifest = requests.get(manifest_url)
@@ -32,5 +32,13 @@ for idx,canvas in enumerate(manifest_json["sequences"][0]["canvases"]):
     print(image_url)
     if output == "alto":
         subprocess.run(["tesseract", image_url, out_path, "-l", model, "--dpi", "400", "-c", "tessedit_create_alto=1", "-c", "preserve_interword_spaces=1"], stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT)
+    elif output == "hocr":
+        subprocess.run(["tesseract", image_url, out_path, "-l", model, "--dpi", "400", "-c", "tessedit_create_hocr=1", "-c", "preserve_interword_spaces=1"], stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT)
+    elif output == "page":
+        subprocess.run(["tesseract", image_url, out_path, "-l", model, "--dpi", "400", "-c", "tessedit_create_page_xml=1", "-c", "preserve_interword_spaces=1"], stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT)
+    elif output == "pdf":
+        subprocess.run(["tesseract", image_url, out_path, "-l", model, "--dpi", "400", "-c", "tessedit_create_pdf=1", "-c", "preserve_interword_spaces=1"], stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT)
+    elif output == "text":
+        subprocess.run(["tesseract", image_url, 'stdout', "-l", model, "--dpi", "400"])
     else:
         subprocess.run(["tesseract", image_url, 'stdout', "-l", model, "--dpi", "400"])
