@@ -13,7 +13,7 @@ except:
 try:
     output = sys.argv[3]
 except:
-    output = 'text'
+    output = ''
 
 manifest_url = "https://api.nb.no/catalog/v1/iiif/%s/manifest" % (urn)
 manifest = requests.get(manifest_url)
@@ -39,6 +39,6 @@ for idx,canvas in enumerate(manifest_json["sequences"][0]["canvases"]):
     elif output == "pdf":
         subprocess.run(["tesseract", image_url, out_path, "-l", model, "--dpi", "400", "-c", "tessedit_create_pdf=1", "-c", "preserve_interword_spaces=1"], stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT)
     elif output == "text":
-        subprocess.run(["tesseract", image_url, 'stdout', "-l", model, "--dpi", "400"])
+        subprocess.run(["tesseract", image_url, out_path, "-l", model, "--dpi", "400", "-c", "tessedit_create_txt=1", "-c", "preserve_interword_spaces=1"], stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT)
     else:
         subprocess.run(["tesseract", image_url, 'stdout', "-l", model, "--dpi", "400"])
