@@ -22,9 +22,10 @@ docker run -it -v $PWD/data:/data tesseract_massproduction sh -c "python3 proces
 ```
 
 process.py takes the following arguments:
-__URN__ = must be a valid full URN from nb.no (e.g. URN:NBN:no-nb_digibok_2018080126011)
-__model_name__ = must be a Tesseract model available in the Docker image (see models/) or a model file otherwise mountained into the container where Tesseract expects to find models (/usr/local/share/tessdata)
-__output_format__ = one of the following (_alto_, _hocr_, _page_, _pdf_, _text_), if unspecified, the script will output text to stdout
+
+- __URN__ = must be a valid full URN from nb.no (e.g. URN:NBN:no-nb_digibok_2018080126011)
+- __model_name__ = must be a Tesseract model available in the Docker image (see models/) or a model file otherwise mountained into the container where Tesseract expects to find models (/usr/local/share/tessdata)
+- __output_format__ = one of the following (_alto_, _hocr_, _page_, _pdf_, _text_), if unspecified, the script will output text to stdout
 
 ## 2. Do a quick evaluation using word frequency lists
 
